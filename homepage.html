@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<head>
+    <title>Home Page</title>
+    
+</head>
+<body>
+   <button id="logout">Logout</button>
+   <p id="username"></p>
+    <center>
+    <h2>Settings </h2>
+    <br>
+    <br>
+    <h3>Interfaces</h3>
+    <input type="text" id="interfaces">
+    <button id="get-interfaces">Get Interfaces</button>
+    
+    <br>
+    <br>
+    <h3>Neighbors</h3>
+    <input type="password" id="pass_login">
+    <button id="get-neighbors">Get Neighbors</button>
+    <br>
+    <br>
+    <h3>Advertised Routes</h3>
+    <input type="number" id="asnlogin">
+    <button id="Get-Routes">Get Routes</button>
+    <br>
+    <br>
+    <h3>BGP State for Neighbors</h3>
+    <input type="password" id="pass_login">
+    <button id="Get BGP-State">Get BGP State</button>
+    <br>
+    <br>
+    <h3>Routing Table</h3>
+    <input type="password" id="pass_login">
+    <button id="Get Routing Table">Get Routing Table</button>
+    </center>
+
+</body>
+<script>
+    document.getElementById("logout").addEventListener("click",function()
+    {
+        sessionStorage.removeItem("Router-ID")
+        sessionStorage.removeItem("Token")
+        sessionStorage.removeItem("ASN")
+        window.location.href="/"
+    })
+    window.onload =()=>
+    {
+        let us=sessionStorage.getItem("Router-ID")
+        console.log(us)
+        document.getElementById("username").innerHTML=us;
+    }
+    document.getElementById("get-interfaces").addEventListener("click",function()
+    {
+        let user=sessionStorage.getItem("Router-ID")
+        let token=sessionStorage.getItem("Token")
+        fetch(`http://localhost:8000/interfaces/${user}`,{
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json',
+                "Authorization":`${token}`
+            }
+
+        })
+        .then(response=>response.json())
+        .then(data=>{
+            console.log(data)
+        })
+        .catch(error=>console.log(error))
+    })
+    document.getElementById("get-neighbors").addEventListener("click",function()
+    {
+        
+    })
+    document.getElementById("Get-Routes").addEventListener("click",function()
+    {
+        
+    })
+    document.getElementById("Get-BGP-State").addEventListener("click",function()
+    {
+        
+    })
+    document.getElementById("Get Routing Table").addEventListener("click",function()
+    {
+        
+    })
+</script>

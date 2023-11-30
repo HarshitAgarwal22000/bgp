@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+    <title>Login</title>
+    
+</head>
+<body>
+    <center>
+    <h2>Login</h2>
+    <br>
+    <br>
+    <h3>Router-ID</h3>
+    <input type="text" id="router_log">
+    <br>
+    <br>
+    <h3>Password</h3>
+    <input type="password" id="pass_login">
+    <h3>ASN</h3>
+    <input type="number" id="asnlogin">
+    <button id="sb">Submit</button>
+    </center>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+<script>
+document.getElementById("sb").addEventListener("click",function(){
+let use= document.getElementById("router_log").value;
+let pass=document.getElementById("pass_login").value;
+let asn=document.getElementById("asnlogin").value;
+console.log("clicked")
+let log=({
+"User":use,
+"Pass":pass,
+"ASN":asn
+})
+fetch(`http://localhost:8000/login`,
+{
+    method: 'POST',
+    headers:{
+            'Content-Type':'application/json'
+    },
+    body:JSON.stringify(log)
+})
+.then(response=>response.json())
+.then(data =>{
+    console.log(data)
+    let decodedpay=jwt_decode(data.r)
+    console.log(decodedpay)
+    console.log(decodedpay.id)
+    sessionStorage.setItem("Token",data.r)
+    sessionStorage.setItem("Router-ID",decodedpay.id)
+    sessionStorage.setItem("ASN",decodedpay.asn)
+    
+    window.open("homepage.html")})
+
+.catch(error =>{
+    console.log(error)
+})
+}
+)
+
+
+</script>
